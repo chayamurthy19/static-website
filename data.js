@@ -1,4 +1,4 @@
-// Array to store contact form details
+// Array to store contact form details (in memory, not used in this version)
 const formDataArray = [];
 
 // Function to handle form submission
@@ -17,16 +17,27 @@ document.getElementById('contactForm').addEventListener('submit', function(event
         message: message
     };
 
-    // Push the form data object into the array
+    // Push the form data object into the array (for local use, not required for sending)
     formDataArray.push(formData);
 
-    // Log the formDataArray to the console (for testing)
-    console.log('Form Data Array:', formDataArray);
+    // Send the data to the Google Apps Script
+    fetch('AKfycbxqFckIZjrArMA6xHEte2JBgSaOZxiD_kWcsOt67YKWHMO5mTM-bpC4e_kW3nVzwzg0', {  // Replace 'YOUR_WEB_APP_URL' with your Google Apps Script web app URL
+        method: 'POST',
+        mode: 'no-cors', // Prevent CORS issues
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        console.log('Data sent to Google Drive successfully!');
+        alert('Thank you for contacting us! Your message has been saved.');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('There was an error submitting your form. Please try again.');
+    });
 
     // Optionally, clear the form fields after submission
     document.getElementById('contactForm').reset();
-
-    // Alert the user that the form was submitted successfully
-    alert('Thank you for contacting us! Your message has been saved.');
-console.log(formDataArray);
 });
